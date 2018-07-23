@@ -1,0 +1,9 @@
+<h1>See all the users</h1>
+<% @users.each do |user| %>
+<ul>
+  <a href="/users/<%= user.slug %>"><%= user.username %></a>
+</ul>
+<% end %>
+<br></br>
+<p><a href="/">Home</a></p>
+<p><a href="/logout">Log Out</a></p>

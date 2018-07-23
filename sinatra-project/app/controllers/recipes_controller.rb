@@ -2,36 +2,47 @@ class RecipesController < ApplicationController
 
   # GET: /recipes
   get "/recipes" do
-    erb :"/recipes/index.html"
+    @recipes = Recipe.all
+    erb :"/recipes/index"
   end
 
   # GET: /recipes/new
   get "/recipes/new" do
-    erb :"/recipes/new.html"
+    erb :"/recipes/new"
   end
 
   # POST: /recipes
   post "/recipes" do
+    #binding.pry
+    @recipe = Recipe.create(params[:recipe])
+    @recipe.save
     redirect "/recipes"
   end
 
   # GET: /recipes/5
-  get "/recipes/:id" do
-    erb :"/recipes/show.html"
+  get "/recipes/:slug" do
+    @recipe = Recipe.find_by_slug(params[:slug])
+    erb :"/recipes/show"
   end
 
   # GET: /recipes/5/edit
-  get "/recipes/:id/edit" do
-    erb :"/recipes/edit.html"
+  get "/recipes/:slug/edit" do
+    @recipe = Recipe.find_by_slug(params[:slug])
+    erb :"/recipes/edit"
   end
 
   # PATCH: /recipes/5
-  patch "/recipes/:id" do
-    redirect "/recipes/:id"
+  post "/recipes/:slug" do
+    binding.pry
+    @recipe = Recipe.find_by_slug(params[:slug])
+    @recipe.update(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:recipe][:description])
+    redirect "/recipes/:slug"
   end
 
   # DELETE: /recipes/5/delete
-  delete "/recipes/:id/delete" do
+  delete "/recipes/:slug/delete" do
+    @recipe = Recipe.find_by_slug(params[:slug])
+    @recipe.destroy
     redirect "/recipes"
   end
 end
