@@ -4,7 +4,6 @@ class Recipe < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def slug
-  #  binding.pry
     self.name.downcase.gsub(" ", "-") if self.name
   end
 

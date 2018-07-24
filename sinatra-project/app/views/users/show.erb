@@ -3,8 +3,8 @@
 <p>Username: <%= @user.username %></p>
 <p>Email: <%= @user.email %></p>
 <% if @user == current_user %>
-<p><a href="/users/<%= @user.slug %>/edit">Edit</a></p>
-<p><a href="/users/<%= @user.slug %>/delete">Delete</a></p>
+  <p><a href="/users/<%= @user.slug %>/edit">Edit</a></p>
+  <p><a href="/users/<%= @user.slug %>/delete">Delete</a></p>
 <% end %>
 <p><a href="/logout">Log Out</a></p>
 <br></br>

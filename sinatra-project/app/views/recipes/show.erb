@@ -6,13 +6,10 @@
 
 <p><a href="/recipes/<%= @recipe.slug %>/edit">Edit</a></p>
 <p><a href="/recipes/<%= @recipe.slug %>/delete">Delete</a></p>
-
-
 <p><a href="/recipes">All Recipes</a></p>
-
 <p><a href="/">Home</a></p>
 <% if !logged_in? %>
   <p><a href="/login">Log In</a></p>
 <% else %>
   <p><a href="/logout">Log Out</a></p>
-  <% end %>
+<% end %>
