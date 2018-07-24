@@ -1,0 +1,8 @@
+My Recipies:
+<ul>
+<% @user.recipes.each do |recipe| %>
+  <div>
+    <li><a href="/recipes/<%= recipe.slug %>"><%= recipe.name %></a></li>
+  </div>
+<% end %>
+</ul>

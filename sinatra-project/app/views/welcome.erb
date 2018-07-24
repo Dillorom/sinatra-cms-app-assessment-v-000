@@ -3,15 +3,19 @@
   <div class="col-md-8 col-md-offset-2">
     <h2>Welcome to Dillorom's Cookbook!</h2>
 
+
     <div class="content">
-      <% if logged_in? %>
+      <% if !logged_in? %>
         <p>Welcome!</p>
-        <p><a href="/recipes/new">Add Recipe</a></p>
-        <p><a href="/users">All Recipes</a></p>
-        <p><a href="/logout">Log Out</a></p>
-      <% else %>
+        <p><a href="/recipes">All Recipes</a></p>
         <p><a href="/login">Log In</a></p>
         <p><a href="/signup">Sign Up</a></p>
+      <% else %>
+        <p>Welcome!</p>
+        <p><a href="/recipes/new">Add Recipe</a></p>
+        <p><a href="/recipes">All Recipes</a></p>
+        <p><a href="/users">All Users</a></p>
+        <p><a href="/logout">Log Out</a></p>
       <% end %>
     </div>
 

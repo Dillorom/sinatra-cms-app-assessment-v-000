@@ -1,9 +1,13 @@
+
 <h1>Log In Below:</h1>
 <form method="post" action="/login">
-  <label for="user[:username]">Username</label>
-  <input type="text" name="user[:username]">
-
-  <label for="password">Password</label>
-  <input type="text" name="user[:password]">
+  <p><label for="user[:username]">Username</label></p>
+  <input type="text" name="user[username]">
+  <br></br>
+  <p><label for="password">Password</label><p>
+  <input type="text" name="user[password]">
   <button type="submit" value="submit" name="submit">Log In</button>
 </form>
+
+<p><a href="/signup">Sign Up</a></p>
+<p><a href="/">Home</a></p>

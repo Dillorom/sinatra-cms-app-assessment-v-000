@@ -1,9 +1,15 @@
-<h1>See all the users</h1>
+
+<h1>List of users</h1>
 <% @users.each do |user| %>
 <ul>
   <a href="/users/<%= user.slug %>"><%= user.username %></a>
 </ul>
 <% end %>
 <br></br>
+<p><a href="/recipes/new">Add Recipe</a></p>
 <p><a href="/">Home</a></p>
-<p><a href="/logout">Log Out</a></p>
+<% if !logged_in? %>
+  <p><a href="/login">Log In</a></p>
+<% else %>
+  <p><a href="/logout">Log Out</a></p>
+  <% end %>

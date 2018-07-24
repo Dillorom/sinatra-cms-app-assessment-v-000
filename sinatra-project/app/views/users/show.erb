@@ -1,7 +1,10 @@
+
 <h1><%=@user.username%>'s page</h1>
 <p>Username: <%= @user.username %></p>
 <p>Email: <%= @user.email %></p>
-<p>My Recipes: </p>
 <p><a href="/users/<%= @user.slug %>/edit">Edit</a></p>
-
+<p><a href="/users/<%= @user.slug %>/delete">Delete</a></p>
 <p><a href="/logout">Log Out</a></p>
+<br></br>
+<p><a href="/users/<%= @user.slug %>/recipes">My Recipes<a/></p>
+<p><a href="/recipes">All recipes</a></p>

@@ -1,17 +1,21 @@
 class UsersController < ApplicationController
-  # GET: /users/5
-  get "/users/:slug" do
-    @user = User.find_by_slug(params[:slug])
-    #binding.pry
-    @user.save
-    erb :"/users/show"
-  end
+  enable :sessions
+  use Rack::Flash
 
   # GET: /users
   get "/users" do
     @users = User.all
       erb :"/users/index"
   end
+
+  # get '/myrecipes' do
+  #   @user = User.find_by_slug(params[:slug])
+  #   if logged_in?
+  #     erb :'/users/myrecipe'
+  #   else
+  #     redirect '/login'
+  #   end
+  # end
 
   # GET: /users/new
   get "/signup" do
@@ -22,6 +26,13 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET: /users/5
+  get "/users/:slug" do
+    @user = User.find_by_slug(params[:slug])
+    #binding.pry
+    erb :"/users/show"
+  end
+
   # POST: /users
   post "/users" do
     #binding.pry
@@ -30,6 +41,7 @@ class UsersController < ApplicationController
     else
       @user = User.create(username: params[:user][:username], email: params[:user][:email], password: params[:user][:password])
       session[:user_id] = @user.id
+      flash[:message] = "You have successfully signed up."
       redirect '/users'
     end
   end
@@ -38,18 +50,25 @@ class UsersController < ApplicationController
 
   # GET: /users/5/edit
   get "/users/:slug/edit" do
-    #binding.pry
-    @user = User.find_by_slug(params[:slug])
-    @user.save
-    erb :"/users/edit"
+    if logged_in?
+      @user = User.find_by_slug(params[:slug])
+      if @user == current_user
+      erb :"/users/edit"
+      else
+        flash[:message] = "You do not have permission to edit other users' profile."
+      redirect '/users'
+      end
+    else
+      redirect '/login'
+    end
   end
 
   # PATCH: /users/5
-  post "/users/:slug" do
-    #binding.pry
+  patch "/users/:slug" do
     @user = User.find_by_slug(params[:slug])
     @user.update(username: params[:user][:username], email: params[:user][:email], password: params[:user][:password])
-    redirect "/users/:slug"
+    flash[:message] = "You have seccussfully edited your profile."
+    redirect "/users/#{@user.slug}"
   end
 
   get '/login' do
@@ -61,11 +80,13 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
+    #binding.pry
     @user = User.find_by(username: params[:user][:username])
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       redirect "/users"
     else
+      #flash[:message] = "Please enter correct username and password, or sign up."
       redirect to '/signup'
     end
   end
@@ -79,7 +100,20 @@ class UsersController < ApplicationController
     end
   end
   # DELETE: /users/5/delete
-  delete "/users/:slug/delete" do
-    redirect "/users"
+  get "/users/:slug/delete" do
+    if logged_in?
+      @user = User.find_by_slug(params[:slug])
+      if  @user == current_user
+        @user.destroy
+        #flash[:message] = "You have successfully deleted your account."
+        redirect "/"
+      else
+        flash[:message] = "You do not have permission to delete another user's account."
+        redirect '/users'
+      end
+    else
+      #flash[:message] = "You need to be logged in to delete your account."
+      redirect '/login'
+    end
   end
 end
