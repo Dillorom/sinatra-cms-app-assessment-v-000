@@ -105,6 +105,7 @@ class UsersController < ApplicationController
       @user = User.find_by_slug(params[:slug])
       if  @user == current_user
         @user.destroy
+        session.clear
         #flash[:message] = "You have successfully deleted your account."
         redirect "/"
       else

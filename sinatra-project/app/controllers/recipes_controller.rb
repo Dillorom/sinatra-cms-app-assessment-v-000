@@ -38,6 +38,7 @@ end
 
         @recipe = current_user.recipes.build(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:description])
           if @recipe.save
+            flash[:message] = "You have successfully added a recipe."
           redirect "/recipes/#{@recipe.slug}"
         else
           redirect '/recipes/new'
@@ -79,6 +80,7 @@ end
         @recipe = Recipe.find_by_slug(params[:slug])
         if @recipe && @recipe.user == current_user
           if @recipe.update(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:recipe][:description])
+            flash[:message] = "You have successfully edited your recipe."
             redirect "/recipes/#{@recipe.slug}"
           else
             redirect "/recipes/#{@recipe.slug}/edit"
@@ -99,6 +101,7 @@ end
       @recipe = Recipe.find_by_slug(params[:slug])
       if @recipe && @recipe.user == current_user
         @recipe.destroy
+        flash[:message] = "You have successfully deleted your recipe."
       end
     redirect "/recipes"
     else
