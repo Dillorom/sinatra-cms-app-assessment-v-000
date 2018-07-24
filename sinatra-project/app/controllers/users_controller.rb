@@ -1,21 +1,16 @@
 class UsersController < ApplicationController
-  enable :sessions
-  use Rack::Flash
+
 
   # GET: /users
   get "/users" do
-    @users = User.all
+    if logged_in?
+      @users = User.all
       erb :"/users/index"
+    else
+      flash[:message] = "You need to login to view users."
+      redirect '/'
+    end
   end
-
-  # get '/myrecipes' do
-  #   @user = User.find_by_slug(params[:slug])
-  #   if logged_in?
-  #     erb :'/users/myrecipe'
-  #   else
-  #     redirect '/login'
-  #   end
-  # end
 
   # GET: /users/new
   get "/signup" do
@@ -37,6 +32,7 @@ class UsersController < ApplicationController
   post "/users" do
     #binding.pry
     if params[:user][:username] == "" || params[:user][:email] == "" || params[:user][:password] == ""
+      flash[:message] = "Please, fill in all the boxes."
       redirect '/signup'
     else
       @user = User.create(username: params[:user][:username], email: params[:user][:email], password: params[:user][:password])
@@ -84,9 +80,9 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:user][:username])
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
-      redirect "/users"
+      redirect "/users/#{@user.slug}"
     else
-      #flash[:message] = "Please enter correct username and password, or sign up."
+      flash[:message] = "Please enter correct username and password, or sign up."
       redirect to '/signup'
     end
   end
@@ -106,14 +102,14 @@ class UsersController < ApplicationController
       if  @user == current_user
         @user.destroy
         session.clear
-        #flash[:message] = "You have successfully deleted your account."
+        flash[:message] = "You have successfully deleted your account."
         redirect "/"
       else
         flash[:message] = "You do not have permission to delete another user's account."
         redirect '/users'
       end
     else
-      #flash[:message] = "You need to be logged in to delete your account."
+      flash[:message] = "You need to be logged in to delete your account."
       redirect '/login'
     end
   end

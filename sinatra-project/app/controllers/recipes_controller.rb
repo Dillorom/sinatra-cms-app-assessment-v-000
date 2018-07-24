@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
-  enable :sessions
-  use Rack::Flash
+
+
 
   get "/recipes/new" do
     if logged_in?
@@ -18,8 +18,9 @@ end
   # GET: /recipes
   get "/recipes" do
     @recipes = Recipe.all
-    # @recipe = Recipe.find_by_slug(params[:recipe][:name])
-    # @user = @recipe.user
+
+    #@recipe = Recipe.find_by_slug(params[:recipe][:name])
+    #@user = @recipe.user
     erb :"/recipes/index"
   end
 
@@ -30,6 +31,7 @@ end
   post "/recipes" do
     if logged_in?
       if params[:recipe][:name] == "" || params[:recipe][:cook_time] == "" ||params[:recipe][:description] == ""
+        flash[:message] = "Please, fill in all the boxes."
         redirect '/recipes/new'
       elsif
         @recipe
@@ -41,6 +43,7 @@ end
             flash[:message] = "You have successfully added a recipe."
           redirect "/recipes/#{@recipe.slug}"
         else
+          flash[:message] = "Recipe name already exists. Please, choose a different name."
           redirect '/recipes/new'
         end
       end

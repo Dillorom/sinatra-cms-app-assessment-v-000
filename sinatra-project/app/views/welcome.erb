@@ -11,7 +11,7 @@
         <p><a href="/login">Log In</a></p>
         <p><a href="/signup">Sign Up</a></p>
       <% else %>
-        <p>Welcome!</p>
+        <p>Welcome, <%= current_user.username %>!</p>
         <p><a href="/recipes/new">Add Recipe</a></p>
         <p><a href="/recipes">All Recipes</a></p>
         <p><a href="/users">All Users</a></p>

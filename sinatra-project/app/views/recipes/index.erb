@@ -1,14 +1,17 @@
 
 <h1>All Recipes:</h1>
 <% @recipes.each do |recipe| %>
-<ul><a href="/recipes/<%= recipe.slug %>"><%= recipe.name %></a> by recipe.user.username </ul>
+<ul><a href="/recipes/<%= recipe.slug %>"><%= recipe.name %></a> by <a href="/users/<%= recipe.user.slug %>"><%= recipe.user.username  if recipe.user%></a> </ul>
 <% end %>
 
 <br></br>
 <p><a href="/recipes/new">Add Recipe</a></p>
+
 <p><a href="/">Home</a></p>
 <% if !logged_in? %>
   <p><a href="/login">Log In</a></p>
 <% else %>
+<p><a href="/users/<%= current_user.slug %>/recipes">My Recipes</a></p>
+<p><a href="/users/<%= current_user.slug %>">My Profile</a></p>
   <p><a href="/logout">Log Out</a></p>
   <% end %>
