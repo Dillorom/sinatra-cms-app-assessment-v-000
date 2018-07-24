@@ -1,6 +1,6 @@
 
-<h1>Edit the user account</h1>
-<p>Please, enter into all boxes.</p>
+<h1>Edit your account</h1>
+
 <form action="/users/<%= @user.slug %>" method="POST">
   <input type="hidden" name="_method" value="PATCH">
   <p>Username:
@@ -18,3 +18,4 @@
 </form>
 
 <p><a href="/logout">Log Out</a></p>
+<p><a href="/">Home</a></p>

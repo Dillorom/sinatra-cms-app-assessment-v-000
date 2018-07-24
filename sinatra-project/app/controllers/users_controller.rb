@@ -1,7 +1,4 @@
 class UsersController < ApplicationController
-
-
-  # GET: /users
   get "/users" do
     if logged_in?
       @users = User.all
@@ -12,7 +9,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET: /users/new
   get "/signup" do
     if !logged_in?
       erb :"/users/create_user"
@@ -21,16 +17,12 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET: /users/5
   get "/users/:slug" do
     @user = User.find_by_slug(params[:slug])
-    #binding.pry
     erb :"/users/show"
   end
 
-  # POST: /users
   post "/users" do
-    #binding.pry
     if params[:user][:username] == "" || params[:user][:email] == "" || params[:user][:password] == ""
       flash[:message] = "Please, fill in all the boxes."
       redirect '/signup'
@@ -42,9 +34,6 @@ class UsersController < ApplicationController
     end
   end
 
-
-
-  # GET: /users/5/edit
   get "/users/:slug/edit" do
     if logged_in?
       @user = User.find_by_slug(params[:slug])
@@ -59,7 +48,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH: /users/5
   patch "/users/:slug" do
     @user = User.find_by_slug(params[:slug])
     @user.update(username: params[:user][:username], email: params[:user][:email], password: params[:user][:password])
@@ -76,7 +64,6 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    #binding.pry
     @user = User.find_by(username: params[:user][:username])
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
@@ -95,7 +82,7 @@ class UsersController < ApplicationController
       redirect '/'
     end
   end
-  # DELETE: /users/5/delete
+
   get "/users/:slug/delete" do
     if logged_in?
       @user = User.find_by_slug(params[:slug])

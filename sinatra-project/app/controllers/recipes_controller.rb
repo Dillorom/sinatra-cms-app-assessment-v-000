@@ -1,7 +1,5 @@
 class RecipesController < ApplicationController
 
-
-
   get "/recipes/new" do
     if logged_in?
       erb :"/recipes/new"
@@ -9,25 +7,17 @@ class RecipesController < ApplicationController
       redirect '/login'
     end
   end
-get '/users/:slug/recipes' do
-  #binding.pry
+
+  get '/users/:slug/recipes' do
   @user = User.find_by_slug(params[:slug])
   erb :'/users/myrecipes'
+  end
 
-end
-  # GET: /recipes
   get "/recipes" do
     @recipes = Recipe.all
-
-    #@recipe = Recipe.find_by_slug(params[:recipe][:name])
-    #@user = @recipe.user
     erb :"/recipes/index"
   end
 
-  # GET: /recipes/new
-
-
-  # POST: /recipes
   post "/recipes" do
     if logged_in?
       if params[:recipe][:name] == "" || params[:recipe][:cook_time] == "" ||params[:recipe][:description] == ""
@@ -37,30 +27,26 @@ end
         @recipe
         redirect '/recipes/new'
       else
-
         @recipe = current_user.recipes.build(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:description])
           if @recipe.save
             flash[:message] = "You have successfully added a recipe."
-          redirect "/recipes/#{@recipe.slug}"
-        else
-          flash[:message] = "Recipe name already exists. Please, choose a different name."
-          redirect '/recipes/new'
+            redirect "/recipes/#{@recipe.slug}"
+          else
+            flash[:message] = "Recipe name already exists. Please, choose a different name."
+            redirect '/recipes/new'
+          end
         end
+      else
+        redirect "/login"
       end
-    else
-    redirect "/login"
   end
-end
 
-  # GET: /recipes/5
   get "/recipes/:slug" do
     @recipe = Recipe.find_by_slug(params[:slug])
-    #binding.pry
     @user = @recipe.user
     erb :"/recipes/show"
   end
 
-  # GET: /recipes/5/edit
   get "/recipes/:slug/edit" do
     if logged_in?
       @recipe = Recipe.find_by_slug(params[:slug])
@@ -74,7 +60,6 @@ end
     end
   end
 
-  # PATCH: /recipes/5
   patch "/recipes/:slug" do
     if logged_in?
       if params[:recipe][:name] == "" || params[:recipe][:cook_time] == "" ||params[:recipe][:description] == ""
@@ -98,7 +83,6 @@ end
     end
   end
 
-  # DELETE: /recipes/5/delete
   get "/recipes/:slug/delete" do
     if logged_in?
       @recipe = Recipe.find_by_slug(params[:slug])
