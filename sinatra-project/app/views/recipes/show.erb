@@ -3,9 +3,10 @@
 <p>Name: <%= @recipe.name %></p>
 <p>Cook Time: <%= @recipe.cook_time %></p>
 <p>Description: <%= @recipe.description %></p>
-
 <p><a href="/recipes/<%= @recipe.slug %>/edit">Edit</a></p>
 <p><a href="/recipes/<%= @recipe.slug %>/delete">Delete</a></p>
+<br></br>
+<p><a href="/recipes/new">Add Recipe</a></p>
 <p><a href="/recipes">All Recipes</a></p>
 <p><a href="/">Home</a></p>
 <% if !logged_in? %>

@@ -1,4 +1,4 @@
-My Recipes:
+<%= @user.username %>'s Recipes:
 <ul>
 <% @user.recipes.each do |recipe| %>
   <div>
@@ -6,3 +6,12 @@ My Recipes:
   </div>
 <% end %>
 </ul>
+<br></br>
+<p><a href="/recipes">All Recipes</a></p>
+<% if !logged_in? %>
+  <p><a href="/login">Log In</a></p>
+<% else %>
+  <p><a href="/recipes/new">Add Recipe</a></p>
+  <p><a href="/logout">Log Out</a></p>
+<% end %>
+<p><a href="/">Home</a></p>
