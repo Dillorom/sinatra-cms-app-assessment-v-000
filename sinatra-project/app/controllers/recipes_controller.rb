@@ -27,7 +27,8 @@ class RecipesController < ApplicationController
         @recipe
         redirect '/recipes/new'
       else
-        @recipe = current_user.recipes.build(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:description])
+        @recipe = current_user.recipes.build(name: params[:recipe][:name], cook_time: params[:recipe][:cook_time], description: params[:recipe][:description])
+#binding.pry
           if @recipe.save
             flash[:message] = "You have successfully added a recipe."
             redirect "/recipes/#{@recipe.slug}"
